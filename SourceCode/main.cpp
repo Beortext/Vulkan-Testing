@@ -29,7 +29,7 @@
 const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;
 
-std::string imagePath = "TestCase/shout.png";
+std::string imagePath = "TestCase/test1.png";
 
 const int MAX_FRAMES_IN_FLIGHT = 2;
 
