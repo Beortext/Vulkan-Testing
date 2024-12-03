@@ -1,0 +1,20 @@
+# User config
+.idea/
+.vs/
+.vscode/*
+!.vscode/settings.json
+
+# Build tools
+.xmake/
+
+build/
+.cache
+
+# Binary
+CabbageRHI/
+x64/
+
+# Mac dotfiles
+.DS_Store
+
+cmake-build-debug/
