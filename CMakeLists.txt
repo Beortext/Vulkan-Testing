@@ -124,6 +124,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 
 # 拷贝相关库到目标输出目录
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    ${PROJECT_SOURCE_DIR}/ExternalEnvironment/Vulkan_v1.3.290.0/Bin/Windows/SPIRV-Tools-shared.dll
+    ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
     COMMAND ${CMAKE_COMMAND} -E copy_directory
     ${PROJECT_SOURCE_DIR}/TestCase
     ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/TestCase
