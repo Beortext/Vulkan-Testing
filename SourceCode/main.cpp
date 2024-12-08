@@ -28,6 +28,7 @@
 
 const uint32_t WIDTH = 800;
 const uint32_t HEIGHT = 600;
+bool isFullScreen = false;
 
 std::string imagePath = "TestCase/test1.png";
 
@@ -385,7 +386,10 @@ private:
 
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 
-        window = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan", nullptr, nullptr);
+
+        GLFWmonitor* pMonitor = isFullScreen ? glfwGetPrimaryMonitor() : NULL;
+
+        window = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan", pMonitor, nullptr);
         glfwSetWindowUserPointer(window, this);
         glfwSetFramebufferSizeCallback(window, framebufferResizeCallback);
     }
