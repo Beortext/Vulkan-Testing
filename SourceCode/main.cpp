@@ -41,7 +41,7 @@ const std::vector<const char*> deviceExtensions = {
     VK_KHR_SWAPCHAIN_EXTENSION_NAME
 };
 
-const bool enableValidationLayers = true;
+const bool enableValidationLayers = false;
 
 enum class ShaderLanguage : uint16_t
 {
