@@ -1,3 +1,11 @@
+#include<string>
+const uint32_t WIDTH = 800;
+const uint32_t HEIGHT = 600;
+bool isFullScreen = false;
+
+std::string imagePath = "TestCase/test1.png";
+
+
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
@@ -25,12 +33,6 @@
 #include <array>
 #include <optional>
 #include <set>
-
-const uint32_t WIDTH = 800;
-const uint32_t HEIGHT = 600;
-bool isFullScreen = false;
-
-std::string imagePath = "TestCase/test1.png";
 
 const int MAX_FRAMES_IN_FLIGHT = 2;
 
