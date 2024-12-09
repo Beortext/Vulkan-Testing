@@ -1,9 +1,10 @@
 #include<string>
-const uint32_t WIDTH = 800;
-const uint32_t HEIGHT = 600;
+const uint32_t WIDTH = 720;
+const uint32_t HEIGHT = 1280;
 bool isFullScreen = false;
+bool useSrcGlsl = false;
 
-std::string imagePath = "TestCase/test1.png";
+std::string imagePath = "TestCase/test3.jpg";
 
 
 #define GLFW_INCLUDE_VULKAN
@@ -32,6 +33,7 @@ std::string imagePath = "TestCase/test1.png";
 #include <limits>
 #include <array>
 #include <optional>
+#include <sstream>
 #include <set>
 
 const int MAX_FRAMES_IN_FLIGHT = 2;
@@ -386,15 +388,26 @@ private:
     void initWindow() {
         glfwInit();
 
+        if (!glfwInit()) {
+            throw std::runtime_error("Failed to initialize GLFW");
+        }
+
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 
 
         GLFWmonitor* pMonitor = isFullScreen ? glfwGetPrimaryMonitor() : NULL;
 
         window = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan", pMonitor, nullptr);
+
+        if (!window) {
+            glfwTerminate();
+            throw std::runtime_error("Failed to create GLFW window");
+        }
+
         glfwSetWindowUserPointer(window, this);
         glfwSetFramebufferSizeCallback(window, framebufferResizeCallback);
     }
+
 
     static void framebufferResizeCallback(GLFWwindow* window, int width, int height) {
         auto app = reinterpret_cast<HelloTriangleApplication*>(glfwGetWindowUserPointer(window));
@@ -784,13 +797,9 @@ private:
         }
 
         std::stringstream buffer;
-        std::string line;
-        while (std::getline(file, line)) {
-            buffer << line << '\n';
-        }
+        buffer << file.rdbuf(); // 将文件内容直接加载到缓冲区
 
-        file.close();
-        return buffer.str();
+    return buffer.str(); // 返回文件内容作为字符串
     }
 
     VkShaderModule createShaderModule(const std::vector<unsigned int>& code)
@@ -811,7 +820,7 @@ private:
 
     void createGraphicsPipeline() {
         auto vertShaderCode = glslangSpirvCompiler(readStringShader("TestCase/vert.glsl"), ShaderLanguage::GLSL, ShaderStage::VertexShader);
-        auto fragShaderCode = glslangSpirvCompiler(readStringShader("TestCase/frag.glsl"), ShaderLanguage::GLSL, ShaderStage::FragmentShader);
+        auto fragShaderCode = glslangSpirvCompiler(readStringShader(useSrcGlsl ? "TestCase/frag.glsl" : "TestCase/frag2.glsl"), ShaderLanguage::GLSL, ShaderStage::FragmentShader);
 
         VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
         VkShaderModule fragShaderModule = createShaderModule(fragShaderCode);
